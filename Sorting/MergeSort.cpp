@@ -19,7 +19,7 @@ void MergeSort::merge(vector<Record>& arr, int left, int mid, int right) {
     int k = left;
 
     while (i < leftSize && j < rightSize) {
-        if (leftArr[i].lessThanInRegardTo(rightArr[j], this->sorting_index)) {
+        if (leftArr[i].lessThanInRegardTo(rightArr[j], CUMULATIVE)) {
             arr[k] = leftArr[i];
             ++i;
         } else {
@@ -58,8 +58,5 @@ void MergeSort::sort(vector<Record>& records) {
     if (records.empty()) {
         cout << "Warning: Empty records vector." << endl;
     }
-
-    cout << "Starting merge sort on " << records.size() << " records..." << endl;
     mergeSortHelper(records, 0, records.size() - 1);
-    cout << "Merge sort completed successfully." << endl;
 }

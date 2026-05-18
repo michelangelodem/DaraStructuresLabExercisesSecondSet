@@ -3,10 +3,9 @@
 
 #include "Sorter.h"
 
-class CountingSort : public Sorter {
+class CountingSort: public Sorter {
     public:
-        void sort(vector<Record>& records);
-        void setIndex(size_t index) override;
+        void sort(vector<Record>& records) override;
 };
 
 #endif 
