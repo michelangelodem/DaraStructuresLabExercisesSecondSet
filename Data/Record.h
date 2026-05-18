@@ -26,8 +26,6 @@ class Record {
         long long getCumulative() const;
 
         bool lessThanInRegardTo(const Record& other, size_t index) const;
-
-        long long getValueAtIndex(size_t index) const;
 };
 
 #endif

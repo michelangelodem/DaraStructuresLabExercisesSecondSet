@@ -6,7 +6,7 @@ void CountingSort::sort(vector<Record>& records) {
         return;
     }
 
-    long long maxValue = records[0].getValueAtIndex(this->sorting_index)/10000; // Scale down to handle large values;
+    long long maxValue = records[0].getCumulative()/1000; // Scale down to handle large values;
     if (maxValue < 0) {
             printf("Error: In ");
             records[0].display();
@@ -24,7 +24,7 @@ void CountingSort::sort(vector<Record>& records) {
     }
 
     for (const Record& record : records) {
-        long long value = record.getValueAtIndex(this->sorting_index)/10000; // Scale down to handle large values
+        long long value = record.getCumulative()/1000; // Scale down to handle large values
         if (value < 0) {
             printf("Error: In ");
             record.display();
@@ -46,7 +46,7 @@ void CountingSort::sort(vector<Record>& records) {
 
     vector<long long> count(static_cast<size_t>(maxValue) + 1, 0);
     for (const Record& record : records) {
-        long long value = record.getValueAtIndex(this->sorting_index)/10000; // Scale down to handle large values
+        long long value = record.getCumulative()/1000; // Scale down to handle large values
         count[value]++;
     }
 
@@ -56,7 +56,7 @@ void CountingSort::sort(vector<Record>& records) {
 
     vector<Record> output(records.size());
     for (long long i = records.size() - 1; i >= 0; --i) {
-        long long value = records[i].getValueAtIndex(this->sorting_index);
+        long long value = records[i].getCumulative()/1000;
         output[count[value] - 1] = records[i];
         count[value]--;
     }
@@ -64,12 +64,4 @@ void CountingSort::sort(vector<Record>& records) {
     for (size_t i = 0; i < records.size(); ++i) {
         records[i] = output[i];
     }
-}
-
-void CountingSort::setIndex(size_t index) {
-    if (index < 1 || index > 2) {
-        throw invalid_argument("Invalid index for sorting. Must be 1 (Value), or 2 (Cumulative).");
-    }
-    this->sorting_index = index;
-    this->displaySortingIndexInfo();
 }

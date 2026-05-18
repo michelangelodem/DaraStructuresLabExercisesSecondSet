@@ -3,16 +3,18 @@
 
 #include "Sorter.h"
 
+#define CUMULATIVE 2
+
 using namespace std;
 
-class MergeSort : public Sorter {
+class MergeSort: public Sorter {
     private:
         void merge(vector<Record>& arr, int left, int mid, int right);
 
         void mergeSortHelper(vector<Record>& arr, int left, int right);
 
     public:
-        void sort(vector<Record>& records);
+        void sort(vector<Record>& records) override;
     };
 
 #endif 
