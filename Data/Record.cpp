@@ -33,6 +33,12 @@ bool Record::lessThanInRegardTo(const Record& other, size_t index) const {
     } else if (index == 2) {
         return cumulative < other.cumulative;
     } else {
-        throw std::invalid_argument("Invalid index for comparison. Must be 0, 1, or 2.");
+        throw invalid_argument("Invalid index for comparison. Must be 0, 1, or 2.");
     }
+}
+
+void swap(Record& rec1, Record& rec2) {
+    swap(rec1.cumulative, rec2.cumulative);
+    swap(rec1.value, rec2.value);
+    swap(rec1.date, rec2.date);
 }
