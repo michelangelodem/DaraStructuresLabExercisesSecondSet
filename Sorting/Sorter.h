@@ -3,6 +3,7 @@
 
 #include "../Data/Record.h"
 #include <vector>
+#include <iostream>
 
 using namespace std;
 

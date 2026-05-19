@@ -50,3 +50,11 @@ bool Date::operator<(const Date& other) const {
 void Date::display() const {
     printf("%02d/%02d/%04d\n", day, month, year);
 }
+
+void swap(Date& d1, Date& d2) {
+    using std::swap;
+    
+    swap(d1.day, d2.day);
+    swap(d1.month, d2.month);
+    swap(d1.year, d2.year);
+}

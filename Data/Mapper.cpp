@@ -2,9 +2,10 @@
 
 Record Mapper::lineToRecord(const string& line) {
     int day, month, year;
-    string* fields = splitLine(line, ','); 
-    string* dateStr = splitLine(fields[2], '/');
+    string* fields = nullptr;
     try {
+        fields = splitLine(line, ','); 
+        string* dateStr = splitLine(fields[2], '/');
         day = stoi(dateStr[0]);
         month = stoi(dateStr[1]);
         year = stoi(dateStr[2]);
@@ -59,6 +60,5 @@ vector<Record> Mapper::fileToRecords(const string& file) {
             throw runtime_error("Error processing line: " + line);
         }
     }
-
     return records;   
 }
