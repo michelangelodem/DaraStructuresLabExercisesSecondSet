@@ -19,7 +19,7 @@ void MergeSort::merge(vector<Record>& arr, int left, int mid, int right) {
     int k = left;
 
     while (i < leftSize && j < rightSize) {
-        if (leftArr[i].lessThanInRegardTo(rightArr[j], CUMULATIVE)) {
+        if (extractor(leftArr[i]) < extractor( rightArr[j])) {
             arr[k] = leftArr[i];
             ++i;
         } else {
@@ -55,6 +55,14 @@ void MergeSort::mergeSortHelper(vector<Record>& arr, int left, int right) {
 }
 
 void MergeSort::sort(vector<Record>& records) {
+    if (extractor == nullptr) {
+        string errorMsg = "Set key extractor before sorting in: " + name + ".";
+        throw std::invalid_argument(errorMsg);
+    }
+    if (records.empty()) {
+        cout << "Warning: Empty records vector." << endl;
+        return;
+    }
     if (records.empty()) {
         cout << "Warning: Empty records vector." << endl;
     }

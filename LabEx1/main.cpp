@@ -1,61 +1,70 @@
 #include <iostream>
 #include <vector>
-#include "../Data/Date.h"
+#include <memory>
 #include "../Data/Mapper.h"
 #include "../Sorting/CountingSort.h"
 #include "../Sorting/MergeSort.h"
-#include "../Sorting/Sorter.h"
 
 using namespace std;
 
-#define CUMULATIVE 2    
 
 void displayRecordBunch(const vector<Record>& records, int start, int count) {
     cout <<  "--------------------------------------------------" <<endl;
     for (int i = start; i < start + count && i < records.size(); ++i) {
         cout << "Record " << (i + 1) << ": ";
         records[i].display();
+        cout <<  "--------------------------------------------------" <<endl;
     }
-    cout <<  "--------------------------------------------------" <<endl;
+}
+
+void executeSort(Sorter& s, vector<Record>& records, Sorter::key_extractor ext) { 
+    try{     
+        s.setExtractor(ext);   
+        s.sort(records);
+    } catch (const exception& e) {
+        cout << "Error during sorting: " << e.what() << endl;
+        throw;
+    }    
+    s.isSorted(records) ? cout<< s.name << " successful\n" : 
+                            cout<< s.name << " failed\n";
+}
+
+vector<Record> getRecordsFromFile(const string path) {
+    vector<Record> res;
+    try {
+        res = Mapper::fileToRecords(path);
+    } catch (const exception& e) {
+        throw runtime_error("Error loading records from CSV");
+    }
+    if (res.empty()) {
+        throw runtime_error("Error: No records loaded from CSV file.");
+    }
+    else {
+        cout << "Successfully loaded " << res.size() << " records." << endl << endl;
+    }
+    return res;
 }
 
 int main() {
-    const string csvFilePath = "../effects-of-covid-19-on-trade-at-15-december-2021-provisional.csv";
-    vector<Record> records_for_ms;
-    vector<Record> records_for_cs;
+    try {    
+        const string csvFilePath = "../effects-of-covid-19-on-trade-at-15-december-2021-provisional.csv";
+        vector<Record> records_for_ms = getRecordsFromFile(csvFilePath);
+        vector<Record> records_for_cs = records_for_ms;
 
-    try {
-        records_for_ms = Mapper::fileToRecords(csvFilePath);
-        records_for_cs = records_for_ms; 
+        unique_ptr<Sorter> cs = make_unique<CountingSort>();
+        executeSort(*cs, records_for_cs, [](const Record& r) {return r.getCumulative(); });
+
+        unique_ptr<Sorter> ms = make_unique<MergeSort>();
+        executeSort(*ms, records_for_ms, [](const Record& r) {return r.getCumulative(); });
+
+        cout << "After Sorting: " << endl;
+        displayRecordBunch(records_for_cs, 0, 5);
+        cout << endl;
+        displayRecordBunch(records_for_cs, max(0, (int)records_for_cs.size() - 5), 5);
+        cout << endl;
     } catch (const exception& e) {
-        cerr << "Error loading records from CSV: " << e.what() << endl;
+        cerr << "\n[FATAL ERROR] Application aborted: " << e.what() << endl;
         return 1;
     }
-    if (records_for_ms.empty()) {
-        cerr << "Error: No records loaded from CSV file." << endl;
-        return 1;
-    }
-
-    cout << "Successfully loaded " << records_for_ms.size() << " records." << endl << endl;
-
-    MergeSort ms = MergeSort();
-    CountingSort cs = CountingSort();
-
-    try {
-        ms.sort(records_for_ms);
-        cs.sort(records_for_cs);
-    } catch (const exception& e) {
-        cerr << "Error during sorting: " << e.what() << endl;
-        return 1;
-    }
-    cout << "After Sorting: " << endl;
-    displayRecordBunch(records_for_cs, 0, 5);
-    cout << endl;
-    displayRecordBunch(records_for_cs, max(0, (int)records_for_cs.size() - 5), 5);
-    cout << endl;
-
-    ms.isSorted(records_for_ms, CUMULATIVE) ? printf("Merge sort successful\n") : printf("Merge sort failed\n");
-    cs.isSorted(records_for_cs, CUMULATIVE) ? printf("Counting sort successful") : printf("Counting sort failed");
-
     return 0;
 }

@@ -4,9 +4,10 @@
 #include "Sorter.h"
 
 class HeapSort: public Sorter {
-    private:
+    private: 
         void heapify(vector<Record>& records, size_t index, size_t length);
     public:
+        HeapSort() : Sorter("Heap sort") {}
         void sort(vector<Record>& records) override;
 };
 

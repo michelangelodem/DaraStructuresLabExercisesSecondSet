@@ -8,6 +8,7 @@ class CountingSort: public Sorter {
         long long setMaxValue(vector<Record>& records);
         vector<long long> getFrequencyArr(vector<Record>& records, long long maxValue);
     public:
+        CountingSort() : Sorter("Counting sort") {} 
         void sort(vector<Record>& records) override;
 };
 

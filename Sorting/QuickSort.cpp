@@ -1,14 +1,14 @@
 #include "QuickSort.h"
 
 int QuickSort::hoarePartition(vector<Record>& records, int low, int high) {
-    long long pivot = records[low].getValue();
+    long long pivot = extractor(records[low]);
     int i = low;
     int j = high;
 
     while (true) {
-        while (records[i].getValue() < pivot) 
+        while (extractor(records[i]) < pivot) 
             i++;
-        while (records[j].getValue() > pivot)
+        while (extractor(records[j]) > pivot)
             j--;
         if (i >= j) return j;
         
@@ -28,6 +28,14 @@ void QuickSort::sortHelper(vector<Record>& records, int low, int high) {
 }
 
 void QuickSort::sort(vector<Record>& records) {
+    if (extractor == nullptr) {
+        string errorMsg = "Set key extractor before sorting in: " + name + ".";
+        throw std::invalid_argument(errorMsg);
+    }
+    if (records.empty()) {
+        cout << "Warning: Empty records vector." << endl;
+        return;
+    }
     int size = records.size() - 1;
     sortHelper(records, 0, size);
 }

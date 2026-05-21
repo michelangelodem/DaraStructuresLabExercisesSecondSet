@@ -8,12 +8,12 @@
 using namespace std;
 
 class MergeSort: public Sorter {
-    private:
+    private:  
         void merge(vector<Record>& arr, int left, int mid, int right);
-
         void mergeSortHelper(vector<Record>& arr, int left, int right);
-
+    
     public:
+        MergeSort() : Sorter("Merge sort") {}
         void sort(vector<Record>& records) override;
     };
 

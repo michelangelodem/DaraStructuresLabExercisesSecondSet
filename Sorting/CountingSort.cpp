@@ -1,6 +1,10 @@
 #include "CountingSort.h"
 
 void CountingSort::sort(vector<Record>& records) {
+    if (extractor == nullptr) {
+        string errorMsg = "Set key extractor before sorting in: " + name + ".";
+        throw std::invalid_argument(errorMsg);
+    }
     if (records.empty()) {
         cout << "Warning: Empty records vector." << endl;
         return;
@@ -12,8 +16,9 @@ void CountingSort::sort(vector<Record>& records) {
     
     long long value = 0;
     long long position = 0;
+
     for (long long i = records.size() - 1; i >= 0; --i) {
-        value = records[i].getCumulative()/1000;
+        value = extractor(records[i])/1000;
         position = count[value] -1;
         output[position] = records[i];
         count[value]--;
@@ -25,13 +30,13 @@ void CountingSort::sort(vector<Record>& records) {
 }
 
 long long CountingSort::setMaxValue(vector<Record>& records) {
-    long long maxValue = records[0].getCumulative() / 1000;
+    long long maxValue = extractor(records[0]) / 1000;
     if ((maxValue < 0)||(maxValue > SIZE_MAX)) 
         throw invalid_argument("Invalid value at records index 0");
     
     long long value = 0;
     for (const auto& record : records) {
-        value = record.getCumulative() / 1000;
+        value = extractor(record)/ 1000;
         if ((value < 0)||(value > SIZE_MAX)) 
             throw invalid_argument("Invalid value while determining max value");
         
@@ -47,7 +52,7 @@ vector<long long> CountingSort::getFrequencyArr(vector<Record>& records, long lo
     //count:
     long long value = 0;
     for (const auto& record : records) {
-        value = record.getCumulative() / 1000;
+        value = extractor(record)/ 1000;
         count[value]++;
     }
 

@@ -8,6 +8,7 @@ class QuickSort: public Sorter {
         int hoarePartition(vector<Record>& records, int low, int high);
         void sortHelper(vector<Record>& records, int low, int high);
     public:
+        QuickSort() : Sorter("Quick sort") {}
         void sort(vector<Record>& records) override;
 };
 
