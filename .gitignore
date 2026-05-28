@@ -1,7 +1,7 @@
-*.exe
 *.pdf
 *.docx
 *.csv
+
 
 # Prerequisites
 *.d

@@ -1,24 +1,24 @@
 #include "CountingSort.h"
 
-void CountingSort::sort(vector<Record>& records) {
-    if (extractor == nullptr) {
+vector<Record> CountingSort::sort(vector<Record>& records, key_extractor ext) {
+    if (ext == nullptr) {
         string errorMsg = "Set key extractor before sorting in: " + name + ".";
         throw std::invalid_argument(errorMsg);
     }
     if (records.empty()) {
         cout << "Warning: Empty records vector." << endl;
-        return;
+        return records;
     }
     
-    long long maxValue = setMaxValue(records);
-    vector<long long> count = getFrequencyArr(records, maxValue);
+    long long maxValue = setMaxValue(records, ext);
+    vector<long long> count = getFrequencyArr(records, maxValue, ext);
     vector<Record> output(records.size());
     
     long long value = 0;
     long long position = 0;
 
     for (long long i = records.size() - 1; i >= 0; --i) {
-        value = extractor(records[i])/1000;
+        value = ext(records[i])/1000;
         position = count[value] -1;
         output[position] = records[i];
         count[value]--;
@@ -27,9 +27,10 @@ void CountingSort::sort(vector<Record>& records) {
     for (size_t i = 0; i < records.size(); ++i) {
         records[i] = output[i];
     }
+    return records;
 }
 
-long long CountingSort::setMaxValue(vector<Record>& records) {
+long long CountingSort::setMaxValue(vector<Record>& records, key_extractor extractor) {
     long long maxValue = extractor(records[0]) / 1000;
     if ((maxValue < 0)||(maxValue > SIZE_MAX)) 
         throw invalid_argument("Invalid value at records index 0");
@@ -47,7 +48,7 @@ long long CountingSort::setMaxValue(vector<Record>& records) {
     return maxValue;
 }
 
-vector<long long> CountingSort::getFrequencyArr(vector<Record>& records, long long maxValue) {
+vector<long long> CountingSort::getFrequencyArr(vector<Record>& records, long long maxValue, key_extractor extractor) {
     vector<long long> count(static_cast<size_t>(maxValue) + 1, 0);
     //count:
     long long value = 0;

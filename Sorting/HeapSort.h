@@ -5,10 +5,10 @@
 
 class HeapSort: public Sorter {
     private: 
-        void heapify(vector<Record>& records, size_t index, size_t length);
+        void heapify(vector<Record>& records, size_t index, size_t length, key_extractor extractor);
     public:
         HeapSort() : Sorter("Heap sort") {}
-        void sort(vector<Record>& records) override;
+        vector<Record> sort(vector<Record>& records, key_extractor ext) override;
 };
 
 #endif 

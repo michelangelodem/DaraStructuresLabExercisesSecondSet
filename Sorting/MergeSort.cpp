@@ -1,6 +1,6 @@
 #include "MergeSort.h"
 
-void MergeSort::merge(vector<Record>& arr, int left, int mid, int right) {
+void MergeSort::merge(vector<Record>& arr, int left, int mid, int right, key_extractor extractor) {
     int leftSize = mid - left + 1;
     int rightSize = right - mid;
 
@@ -42,29 +42,27 @@ void MergeSort::merge(vector<Record>& arr, int left, int mid, int right) {
     }
 }
 
-void MergeSort::mergeSortHelper(vector<Record>& arr, int left, int right) {
+void MergeSort::mergeSortHelper(vector<Record>& arr, int left, int right, key_extractor extractor) {
     if (left < right) {
         int mid = left + (right - left) / 2;
 
-        mergeSortHelper(arr, left, mid);
+        mergeSortHelper(arr, left, mid, extractor);
 
-        mergeSortHelper(arr, mid + 1, right);
+        mergeSortHelper(arr, mid + 1, right, extractor);
 
-        merge(arr, left, mid, right);
+        merge(arr, left, mid, right, extractor);
     }
 }
 
-void MergeSort::sort(vector<Record>& records) {
-    if (extractor == nullptr) {
+vector<Record> MergeSort::sort(vector<Record>& records, key_extractor ext) {
+    if (ext == nullptr) {
         string errorMsg = "Set key extractor before sorting in: " + name + ".";
         throw std::invalid_argument(errorMsg);
     }
     if (records.empty()) {
         cout << "Warning: Empty records vector." << endl;
-        return;
+        return records;
     }
-    if (records.empty()) {
-        cout << "Warning: Empty records vector." << endl;
-    }
-    mergeSortHelper(records, 0, records.size() - 1);
+    mergeSortHelper(records, 0, records.size() - 1, ext);
+    return records;
 }
