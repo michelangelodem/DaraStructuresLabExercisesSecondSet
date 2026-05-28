@@ -1,14 +1,14 @@
 #include "QuickSort.h"
 
-int QuickSort::hoarePartition(vector<Record>& records, int low, int high) {
-    long long pivot = records[low].getValue();
+int QuickSort::hoarePartition(vector<Record>& records, int low, int high, key_extractor extractor) {
+    long long pivot = extractor(records[low]);
     int i = low;
     int j = high;
 
     while (true) {
-        while (records[i].getValue() < pivot) 
+        while (extractor(records[i]) < pivot) 
             i++;
-        while (records[j].getValue() > pivot)
+        while (extractor(records[j]) > pivot)
             j--;
         if (i >= j) return j;
         
@@ -18,16 +18,25 @@ int QuickSort::hoarePartition(vector<Record>& records, int low, int high) {
     }
 }
 
-void QuickSort::sortHelper(vector<Record>& records, int low, int high) {
+void QuickSort::sortHelper(vector<Record>& records, int low, int high, key_extractor extractor) {
     if (low < high) {
-        int pivot = hoarePartition(records, low, high);
+        int pivot = hoarePartition(records, low, high, extractor);
 
-        sortHelper(records, low, pivot);
-        sortHelper(records, pivot + 1, high);
+        sortHelper(records, low, pivot, extractor);
+        sortHelper(records, pivot + 1, high, extractor);
     }
 }
 
-void QuickSort::sort(vector<Record>& records) {
+vector<Record> QuickSort::sort(vector<Record>& records, key_extractor ext) {
+    if (ext == nullptr) {
+        string errorMsg = "Set key extractor before sorting in: " + name + ".";
+        throw std::invalid_argument(errorMsg);
+    }
+    if (records.empty()) {
+        cout << "Warning: Empty records vector." << endl;
+        return records;
+    }
     int size = records.size() - 1;
-    sortHelper(records, 0, size);
+    sortHelper(records, 0, size, ext);
+    return records;
 }

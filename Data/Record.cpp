@@ -38,6 +38,7 @@ bool Record::lessThanInRegardTo(const Record& other, size_t index) const {
 }
 
 void swap(Record& rec1, Record& rec2) {
+    using std::swap;
     swap(rec1.cumulative, rec2.cumulative);
     swap(rec1.value, rec2.value);
     swap(rec1.date, rec2.date);

@@ -5,10 +5,11 @@
 
 class QuickSort: public Sorter {
     private:
-        int hoarePartition(vector<Record>& records, int low, int high);
-        void sortHelper(vector<Record>& records, int low, int high);
+        int hoarePartition(vector<Record>& records, int low, int high, key_extractor extractor);
+        void sortHelper(vector<Record>& records, int low, int high, key_extractor extractor);
     public:
-        void sort(vector<Record>& records) override;
+        QuickSort() : Sorter("Quick sort") {}
+        vector<Record> sort(vector<Record>& records, key_extractor ext) override;
 };
 
 #endif 

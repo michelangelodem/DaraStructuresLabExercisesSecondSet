@@ -1,10 +1,9 @@
 #include "Sorter.h"
 
-bool Sorter::isSorted(vector<Record>& records, size_t index) const {
+bool Sorter::isSorted(const vector<Record>& records, key_extractor ext) const {
     for (size_t i = 1; i < records.size(); ++i) {
-        if (records[i].lessThanInRegardTo(records[i-1], index)) {
-            records[i-1].display();
-            records[i].display();
+        if (ext(records[i]) < ext(records[i-1])) {
+            printf("Out of order: \n%lli \n %lli \n", ext(records[i]), ext(records[i-1]));
             return false;
         }
     }

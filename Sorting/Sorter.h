@@ -1,17 +1,20 @@
 #ifndef SORTER_H
 #define SORTER_H
 
-#include "../Data/Record.h"
 #include <vector>
 #include <iostream>
-
-using namespace std;
+#include <functional>
+#include "../Data/Record.h"
 
 class Sorter {
-    protected:
-        virtual void sort(vector<Record>& records) = 0;
     public:    
-        bool isSorted(vector<Record>& records, size_t index) const; 
+        using key_extractor = function<long long(const Record&)>;
+        const string name = "Sort";
+        
+        virtual vector<Record> sort(vector<Record>& records, key_extractor ext) = 0;
+        bool isSorted(const vector<Record>& records, key_extractor ext) const; 
+    protected:        
+        Sorter(string sorterName) : name(sorterName) {}
 };
 
 #endif 
