@@ -72,3 +72,9 @@ vcpkg_installed/
 # test output & cache
 Testing/
 .cache/
+.vscode/tasks.json
+.vscode/c_cpp_properties.json
+.vscode/settings.json
+.vscode/tasks.json
+.vscode/tasks.json
+.vscode/tasks.json
