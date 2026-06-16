@@ -18,6 +18,31 @@ Record binarySearch(const vector<Record>& recs, long long target, Sorter::key_ex
 }
 
 Record interoplationSearch(const vector<Record>& recs, long long target, Sorter::key_extractor ext) {
+    int low = 0;
+    int high = recs.size() - 1;
+
+    while (low <= high && target >= ext(recs[low]) && target <= ext(recs[high])) {
+        
+        // Αν low == high, έχουμε 1 στοιχείο
+        if (low == high) {
+            if (ext(recs[low]) == target)
+                return recs[low];
+            return Record();
+        }
+
+        // Ο τύπος παρεμβολής
+        int pos = low + ((double)(target - ext(recs[low])) / 
+                         (ext(recs[high]) - ext(recs[low]))) * (high - low);
+
+        if (ext(recs[pos]) == target)
+            return recs[pos];
+        else if (ext(recs[pos]) < target)
+            low = pos + 1;
+        else
+            high = pos - 1;
+    }
+
+    return Record();
 }
 
 int main() {
@@ -30,15 +55,19 @@ int main() {
 
         Executor executor(*ms, csvFilePath, [](const Record& r) {return r.getCumulative(); });
         executor.executeSearch(binarySearch);
+        executor.executeSearch(interoplationSearch);
 
         executor.setSorter(*cs);
         executor.executeSearch(binarySearch);
+        executor.executeSearch(interoplationSearch);
 
         executor.setSorter(*hs);
         executor.executeSearch(binarySearch);
+        executor.executeSearch(interoplationSearch);
 
         executor.setSorter(*qs);
         executor.executeSearch(binarySearch);
+        executor.executeSearch(interoplationSearch);
 
     } catch (const exception& e) {
         cerr << "\n[FATAL ERROR] Application aborted: " << e.what() << endl;

@@ -2,14 +2,23 @@
     "tasks": [
         {
             "type": "cppbuild",
-            "label": "C/C++: gcc.exe build active file",
-            "command": "C:\\Coding&Tools\\MinGW\\bin\\gcc.exe",
+            "label": "C/C++: g++ build active file",
+            "command": "E:/Programs/usr/bin/g++.exe",
             "args": [
                 "-fdiagnostics-color=always",
                 "-g",
                 "${file}",
+                "../Executor.cpp",
+                "../Data/Mapper.cpp",
+                "../Data/Date.cpp",
+                "../Data/Record.cpp",
+                "../Sorting/Sorter.cpp",
+                "../Sorting/CountingSort.cpp",
+                "../Sorting/HeapSort.cpp",
+                "../Sorting/MergeSort.cpp",
+                "../Sorting/QuickSort.cpp",
                 "-o",
-                "${fileDirname}\\${fileBasenameNoExtension}.exe"
+                "${fileDirname}/${fileBasenameNoExtension}.exe"
             ],
             "options": {
                 "cwd": "${fileDirname}"

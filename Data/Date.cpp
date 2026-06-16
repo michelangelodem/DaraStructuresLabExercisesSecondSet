@@ -12,7 +12,8 @@ Date::Date(int d, int m, int y) {
     }
 
     if (m == 2) {
-        int maxDay = is_leap_year() ? 29 : 28;
+        bool leap = (y % 4 == 0 && y % 100 != 0) || (y % 400 == 0);
+        int maxDay = leap ? 29 : 28;
         if (d > maxDay) {
             throw std::invalid_argument("Invalid date for February");
         }

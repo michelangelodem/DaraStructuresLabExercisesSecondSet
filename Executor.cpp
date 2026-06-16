@@ -28,8 +28,8 @@ void Executor::executeSearch(searcher search_func) {
         auto start = high_resolution_clock::now();
         Record found = search_func(recs, key, ext);
         auto end = high_resolution_clock::now();
-        auto duration = duration_cast<milliseconds>(end - start);
-        cout << "Time taken in: " << sorter.get().name << " sorted records is: " << duration.count() << " ms" << endl;
+        auto duration = duration_cast<microseconds>(end - start);
+        cout << "Time taken in: " << sorter.get().name << " sorted records is: " << duration.count() << " μs" << endl;
         found.display();
     } catch (const exception& e) {
         cout << "Error during searching: " << e.what() << endl;
@@ -42,7 +42,7 @@ vector<Record> Executor::getRecordsFromFile(const string path) {
     try {
         res = Mapper::fileToRecords(path);
     } catch (const exception& e) {
-        throw runtime_error("Error loading records from CSV");
+        throw runtime_error("Error loading records from CSV: " + string(e.what()));
     }
     if (res.empty()) {
         throw runtime_error("Error: No records loaded from CSV file.");
