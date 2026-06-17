@@ -48,6 +48,14 @@ bool Date::operator<(const Date& other) const {
     }
 }
 
+bool Date::operator==(const Date& other) const {
+    return (
+        year == other.year &&
+        month == other.month &&
+        day == other.day
+    );
+}
+
 void Date::display() const {
     printf("%02d/%02d/%04d\n", day, month, year);
 }

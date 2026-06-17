@@ -2,7 +2,7 @@
 #define SEARCH_H
 
 #include <cmath>
-#include "../Executor.h"
+#include "../../Executor.h"
 
 inline int interpolatePosition(int left, int right, long long target, long long leftVal, long long rightVal) {
     int size = right - left + 1;

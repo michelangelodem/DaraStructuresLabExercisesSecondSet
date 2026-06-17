@@ -1,12 +1,12 @@
-#include "../Executor.h"
-#include "../Sorting/MergeSort.h"
-#include "../Sorting/CountingSort.h"
-#include "../Sorting/HeapSort.h"
-#include "../Sorting/QuickSort.h"
+#include "../../Executor.h"
+#include "../../Sorting/MergeSort.h"
+#include "../../Sorting/CountingSort.h"
+#include "../../Sorting/HeapSort.h"
+#include "../../Sorting/QuickSort.h"
 
 int main() {
     try {    
-        const string csvFilePath = "../effects-of-covid-19-on-trade-at-15-december-2021-provisional.csv";
+        const string csvFilePath = "../../effects-of-covid-19-on-trade-at-15-december-2021-provisional.csv";
         auto ms = make_shared<MergeSort>();
         auto cs = make_shared<CountingSort>();
         auto hs = make_shared<HeapSort>();

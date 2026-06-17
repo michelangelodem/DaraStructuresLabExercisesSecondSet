@@ -24,7 +24,8 @@ class Date {
         int getYear() const;
 
         bool operator<(const Date& other) const;
-
+        bool operator==(const Date& other) const;
+        
         void display() const;
 
         friend void swap(Date& d1, Date& d2);

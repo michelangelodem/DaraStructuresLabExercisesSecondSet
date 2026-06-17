@@ -25,6 +25,12 @@ class Record {
 
         long long getCumulative() const;
 
+        void setDate(Date &d);
+        
+        void setValue(long long v);
+        
+        void setCumulative(long long c);
+
         bool lessThanInRegardTo(const Record& other, size_t index) const;
 
         friend void swap(Record& rec1, Record& rec2);

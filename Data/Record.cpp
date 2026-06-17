@@ -18,6 +18,18 @@ long long Record::getCumulative() const {
     return cumulative;
 }
 
+void Record::setDate(Date &d) {
+    this->date = date;
+}
+
+void Record::setValue(long long v) {
+    this->value = v;
+}
+
+void Record::setCumulative(long long c) {
+    this->value = c;
+}
+
 void Record::display() const {
     printf("\nDate: ");
     date.display();
