@@ -19,6 +19,7 @@ void Executor::executeSort() {
 }
 
 void Executor::executeSearch(searcher search_func) {
+    cout << "\nExecuting search using " << sorter->name << " sorted records." << endl;
     vector<Record> recs = records;
     try {
         recs = sorter->sort(recs, ext);
@@ -54,10 +55,9 @@ vector<Record> Executor::getRecordsFromFile(const string path) {
 }
 
 void Executor::displayRecordBunch(vector<Record> records, int start, int count) const {
-    cout <<  "--------------------------------------------------" <<endl;
     for (int i = start; i < start + count && i < records.size(); ++i) {
         cout << "Record " << (i + 1) << ": ";
         records[i].display();
-        cout <<  "--------------------------------------------------" <<endl;
+        cout << "\n";
     }
 }
