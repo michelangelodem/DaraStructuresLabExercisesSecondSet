@@ -3,6 +3,7 @@
 #include "../Sorting/CountingSort.h"
 #include "../Sorting/HeapSort.h"
 #include "../Sorting/QuickSort.h"
+#include "Search.h"
 
 int main() {
     try {    
@@ -13,17 +14,26 @@ int main() {
         auto qs = make_shared<QuickSort>();
 
         Executor executor(ms, csvFilePath, [](const Record& r) {return r.getCumulative(); });
-        executor.executeSort();
+        executor.executeSearch(binarySearch);
+        executor.executeSearch(interoplationSearch);
+        executor.executeSearch(binaryInterpolationSearch);
 
         executor.setSorter(cs);
-        executor.executeSort();
+        executor.executeSearch(binarySearch);
+        executor.executeSearch(interoplationSearch);
+        executor.executeSearch(binaryInterpolationSearch);
+        executor.executeSearch(bisStarSearch);
 
-        executor.setExtractor([](const Record& r) {return r.getValue(); });
         executor.setSorter(hs);
-        executor.executeSort();
+        executor.executeSearch(binarySearch);
+        executor.executeSearch(interoplationSearch);
+        executor.executeSearch(binaryInterpolationSearch);
 
         executor.setSorter(qs);
-        executor.executeSort();
+        executor.executeSearch(binarySearch);
+        executor.executeSearch(interoplationSearch);
+        executor.executeSearch(binaryInterpolationSearch);
+
     } catch (const exception& e) {
         cerr << "\n[FATAL ERROR] Application aborted: " << e.what() << endl;
         return 1;

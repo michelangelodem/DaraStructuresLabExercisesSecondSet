@@ -5,23 +5,23 @@ void Executor::executeSort() {
     try {
         //Executor::displayRecordBunch(recs, 0, 5);
         auto start = high_resolution_clock::now();
-        recs = sorter.get().sort(recs, ext);
+        recs = sorter->sort(recs, ext);
         auto end = high_resolution_clock::now();
         auto duration = duration_cast<milliseconds>(end - start);
         //Executor::displayRecordBunch(recs, recs.size() - 5, 5);
-        cout << "Time taken by " << sorter.get().name << ": " << duration.count() << " ms" << endl;
+        cout << "Time taken by " << sorter->name << ": " << duration.count() << " ms" << endl;
     } catch (const exception& e) {
         cout << "Error during sorting: " << e.what() << endl;
         throw;
     }    
-    sorter.get().isSorted(recs, ext) ? cout<< sorter.get().name << " successful\n" : 
-                            cout<< sorter.get().name << " failed\n";
+    sorter->isSorted(recs, ext) ? cout<< sorter->name << " successful\n" : 
+                            cout<< sorter->name << " failed\n";
 }
 
 void Executor::executeSearch(searcher search_func) {
     vector<Record> recs = records;
     try {
-        recs = sorter.get().sort(recs, ext);
+        recs = sorter->sort(recs, ext);
         cout << "Give a key to search for: ";
         long long key;
         cin >> key;
@@ -29,7 +29,7 @@ void Executor::executeSearch(searcher search_func) {
         Record found = search_func(recs, key, ext);
         auto end = high_resolution_clock::now();
         auto duration = duration_cast<microseconds>(end - start);
-        cout << "Time taken in: " << sorter.get().name << " sorted records is: " << duration.count() << " μs" << endl;
+        cout << "Time taken in: " << sorter->name << " sorted records is: " << duration.count() << " μs" << endl;
         found.display();
     } catch (const exception& e) {
         cout << "Error during searching: " << e.what() << endl;
